@@ -74,7 +74,7 @@ namespace Nest.OData
             var query = TranslateExpression(node.Body, new ODataExpressionContext
             {
                 PathPrefix = fullyQualifiedFieldName,
-                Type = context.Type,
+                Type = context?.Type,
             });
 
             if (isNavigationProperty)
@@ -103,7 +103,7 @@ namespace Nest.OData
                     !TranslateExpression(node.Body, new ODataExpressionContext
                     {
                         PathPrefix = fullyQualifiedFieldName,
-                        Type = context.Type,
+                        Type = context?.Type,
                     })
                 ]
             };

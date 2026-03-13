@@ -133,5 +133,100 @@ namespace Nest.OData.Tests
 
             Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
         }
+
+        [Fact]
+        public void AggregateSum()
+        {
+            var queryOptions = "$apply=aggregate(Id with sum as TotalId)".GetODataQueryOptions<Product>();
+
+            var elasticQuery = queryOptions.ToElasticQuery();
+
+            Assert.NotNull(elasticQuery);
+
+            var queryJson = elasticQuery.ToJson();
+
+            var expectedJson = @"{""aggs"":{""TotalId"":{""sum"":{""field"":""Id""}}}}";
+
+            var actualJObject = JObject.Parse(queryJson);
+            var expectedJObject = JObject.Parse(expectedJson);
+
+            Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
+        }
+
+        [Fact]
+        public void AggregateMax()
+        {
+            var queryOptions = "$apply=aggregate(Id with max as MaxId)".GetODataQueryOptions<Product>();
+
+            var elasticQuery = queryOptions.ToElasticQuery();
+
+            Assert.NotNull(elasticQuery);
+
+            var queryJson = elasticQuery.ToJson();
+
+            var expectedJson = @"{""aggs"":{""MaxId"":{""max"":{""field"":""Id""}}}}";
+
+            var actualJObject = JObject.Parse(queryJson);
+            var expectedJObject = JObject.Parse(expectedJson);
+
+            Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
+        }
+
+        [Fact]
+        public void AggregateMin()
+        {
+            var queryOptions = "$apply=aggregate(Id with min as MinId)".GetODataQueryOptions<Product>();
+
+            var elasticQuery = queryOptions.ToElasticQuery();
+
+            Assert.NotNull(elasticQuery);
+
+            var queryJson = elasticQuery.ToJson();
+
+            var expectedJson = @"{""aggs"":{""MinId"":{""min"":{""field"":""Id""}}}}";
+
+            var actualJObject = JObject.Parse(queryJson);
+            var expectedJObject = JObject.Parse(expectedJson);
+
+            Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
+        }
+
+        [Fact]
+        public void AggregateAverage()
+        {
+            var queryOptions = "$apply=aggregate(Id with average as AvgId)".GetODataQueryOptions<Product>();
+
+            var elasticQuery = queryOptions.ToElasticQuery();
+
+            Assert.NotNull(elasticQuery);
+
+            var queryJson = elasticQuery.ToJson();
+
+            var expectedJson = @"{""aggs"":{""AvgId"":{""avg"":{""field"":""Id""}}}}";
+
+            var actualJObject = JObject.Parse(queryJson);
+            var expectedJObject = JObject.Parse(expectedJson);
+
+            Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
+        }
+
+        [Fact]
+        public void AggregateCountDistinct()
+        {
+            var queryOptions = "$apply=aggregate(Category with countdistinct as DistinctCategories)".GetODataQueryOptions<Product>();
+
+            var elasticQuery = queryOptions.ToElasticQuery();
+
+            Assert.NotNull(elasticQuery);
+
+            var queryJson = elasticQuery.ToJson();
+
+            var expectedJson = @"{""aggs"":{""DistinctCategories"":{""cardinality"":{""field"":""Category""}}}}";
+
+            var actualJObject = JObject.Parse(queryJson);
+            var expectedJObject = JObject.Parse(expectedJson);
+
+            Assert.True(JToken.DeepEquals(expectedJObject, actualJObject), "Expected and actual JSON do not match.");
+        }
     }
 }
