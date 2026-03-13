@@ -75,9 +75,9 @@ namespace Nest.OData
             foreach (var aggregateExpression in aggregateExpressions.OfType<AggregateExpression>())
             {
                 var alias = aggregateExpression.Alias;
-                var propertyName = aggregateExpression.Expression.ToString();
+                var propertyName = ODataHelpers.ExtractFullyQualifiedFieldName(aggregateExpression.Expression);
 
-                _ = aggregateExpression.Method switch
+                searchDescriptor = aggregateExpression.Method switch
                 {
                     AggregationMethod.Max => searchDescriptor.Aggregations(a => a.Max(alias, m => m.Field(propertyName))),
                     AggregationMethod.Min => searchDescriptor.Aggregations(a => a.Min(alias, s => s.Field(propertyName))),
